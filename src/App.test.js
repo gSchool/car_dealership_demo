@@ -4,7 +4,7 @@ import App from './App';
 import SearchForm from "./vehicles/SearchForm";
 import userEvent from "@testing-library/user-event";
 
-describe('App', () => {
+describe('App Testing Basics', () => {
   let app;
 
   beforeEach(() => {
@@ -26,3 +26,8 @@ describe('App', () => {
   });
 });
 
+describe('Testing with Mocks', () => {
+  test('should', () => {
+
+  });
+});
