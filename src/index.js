@@ -4,7 +4,6 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Route } from "react-router-dom";
-import VehicleList from "./examples/VehicleList";
 
 ReactDOM.render(
     <React.StrictMode>
@@ -12,7 +11,6 @@ ReactDOM.render(
         <BrowserRouter>
           <div>
             <Route exact path="/" component={App} />
-            <Route path="/inventory" component={VehicleList} />
           </div>
         </BrowserRouter>
     </React.StrictMode>,

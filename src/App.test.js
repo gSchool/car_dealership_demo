@@ -1,41 +1,28 @@
 import React from "react";
 import { act, render, screen } from '@testing-library/react';
 import App from './App';
-import VehicleSearch from "./examples/VehicleSearch";
+import SearchForm from "./vehicles/SearchForm";
+import userEvent from "@testing-library/user-event";
 
 describe('App', () => {
-  let container = null;
+  let app;
 
   beforeEach(() => {
-    container = document.createElement("div");
-    document.body.appendChild(container);
+    app = render(<App />);
   });
 
   test('renders learn react link', () => {
-    render(<App />);
-    const linkElement = screen.getByText(/learn react/i);
-    expect(linkElement).toBeInTheDocument();
+    expect(screen.getByText(/Auto Galaxy/i)).toBeInTheDocument();
   });
 
   test('renders car search form', () => {
-    const app = render(<App />);
-    act(()=> {
-      render(<VehicleSearch />, app)
-    })
-    expect(app.getByRole('form')).toBeVisible();
-  })
-});
-
-describe('Login Form', () => {
-  test('should render username and password fields', () => {
-
+    render(<SearchForm />, app)
+    expect(screen.getByRole('form')).toBeVisible();
   });
 
-  test('should set authorization', () => {
-
-  });
-
-  test('should hide login form if logged in', () => {
-
+  test('should display all vehicles', () => {
+    userEvent.click(screen.getByText(/Search/i));
+    expect(screen.getAllByTestId('vehicleSummary')).toHaveLength(2);
   });
 });
+

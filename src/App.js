@@ -1,20 +1,22 @@
 import './App.css';
-import React, { useState } from "react";
-import LoginForm from "./examples/LoginForm";
+import React from "react";
+import SearchForm from "./vehicles/SearchForm";
+import VehicleSummary from "./vehicles/VehicleSummary";
 
 function App() {
-    const [authorized, setAuthorization] = useState(false);
-    const [authenticated, setAuthentication] = useState(false);
 
-    const authenticate = (userData) => {
-        // send request to authenticate
-        // set auth status
+    const displayAllCars = () => {
+        const vehicles = [{make: 'Ford'}, {make: 'Tesla'}];
+        return vehicles.map(result => {
+            return <VehicleSummary {...result} />
+        });
     }
 
     return (
         <div>
             <h1>Auto Galaxy</h1>
-            { authorized ? <LoginForm authenticate={  authenticate } /> : null }
+            <SearchForm />
+            { displayAllCars() }
         </div>
     );
 }
