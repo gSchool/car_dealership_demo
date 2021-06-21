@@ -5,6 +5,7 @@ import VehicleSummary from "./vehicles/VehicleSummary";
 import { allVehicles } from "./VehicleData";
 
 function App() {
+    const {}
 
     const displayAllCars = () => {
         return allVehicles.map(vehicle => {
