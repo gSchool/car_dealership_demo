@@ -1,9 +1,7 @@
 import React from "react";
-import { act, render, screen } from '@testing-library/react';
-import App from './App';
-import SearchForm from "./vehicles/SearchForm";
+import { render, screen } from '@testing-library/react';
 import userEvent from "@testing-library/user-event";
-import {waitFor} from "@testing-library/dom";
+import App from './App';
 
 describe('App Testing Basics', () => {
   let app;
@@ -12,53 +10,38 @@ describe('App Testing Basics', () => {
     app = render(<App />);
   });
 
-  test('renders learn react link', () => {
-    expect(screen.getByText(/Auto Galaxy/i)).toBeInTheDocument();
+  it('should render page header', () => {
+    expect(screen.getByText(/Welcome to the React Workshop/i)).toBeInTheDocument();
   });
 
-  test('renders car search form', () => {
-    render(<SearchForm />, app)
-    expect(screen.getByRole('form')).toBeVisible();
+  it('should render user title without name', () => {
+    expect(screen.getByTitle('userTitle')).toBeInTheDocument();
+    expect(screen.queryByTitle('userName')).toBeNull();
   });
 
-  test('should display all vehicles', () => {
-    userEvent.click(screen.getByText(/Search/i));
-    expect(screen.getAllByTestId('vehicleSummary')).toHaveLength(441);
-  });
-});
+  it('should render user name on title click', () => {
+    const userTitle = screen.getByTitle('userTitle');
+    expect(screen.queryByTitle('userName')).toBeNull();  // query
 
-// Mocking ------------------------------
+    userEvent.click(userTitle);
 
-const apiResponse = [
-  {id: 1, make: 'Ford', model: 'Taurus', year: '2000'},
-  {id: 2, make: 'Jeep', model: 'Limited', year: '2015'}
-];
-
-jest.spyOn(global, "fetch").mockImplementation(() =>
-    Promise.resolve({
-      json: () => Promise.resolve(apiResponse)
-    })
-);
-
-describe('Testing with Mocks', () => {
-  let app;
-
-  beforeEach(() => {
-    app = render(<App />);
+    expect(screen.getByTitle('userName')).toBeInTheDocument(); // get
   });
 
-  test('should render vehicle make, model and year', () => {
-    const vehicleData = {make: 'Ford', model: 'Taurus', year: '2000'};
-    render(<VehiclePage {...vehicleData} />, app);
-
-    expect(screen.getByText(/2000 Ford Taurus/i)).toBeVisible();
+  it('should render user data', () => {
+    expect(screen.getByTestId('currentSnack')).toBeVisible();
+    expect(screen.queryByTestId('currentSnack')).toBeDefined();
   });
 
-  test('should display vehicle inventory (async)', async () => {
-    render(<VehicleList />, app);
-
-    await waitFor(() => {
-      expect(screen.queryAllByTestId('vehicle')).toHaveLength(2)
-    })
+  test('should count on click', () => {
+    const button = screen.getByRole('button');
+    expect(screen.getByText(0)).toBeInTheDocument();
+    userEvent.click(button);
+    expect(screen.getByText(1)).toBeInTheDocument();
   });
+
+  test('should display favorite chocolates', () => {
+    expect(screen.getAllByRole('listitem')).toHaveLength(3);
+  });
+
 });
